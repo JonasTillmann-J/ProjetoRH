@@ -1,24 +1,35 @@
+
+name: ${PROJECT_NAME} # Nome do projeto Docker Compose, usado para agrupar seus recursos.
+
 services:
-  database:
-    image: postgres:${POSTGRES_VERSION}
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  postgres_database_service:
+    container_name: ${CONTAINER_NAME_POSTGRES} # Nome fixo do contêiner no Docker.
+    image: postgres:${POSTGRES_VERSION} # Imagem oficial do PostgreSQL com versão definida no .env.
+    restart: unless-stopped # Reinicia automaticamente, exceto quando parado manualmente.
+
+    environment: # Variáveis utilizadas na inicialização do PostgreSQL.
+      POSTGRES_DB: ${POSTGRES_DB} # Nome do banco de dados inicial.
+      POSTGRES_USER: ${POSTGRES_USER} # Usuário administrador inicial do banco.
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # Senha do usuário inicial do banco.
+
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:${POSTGRES_DATA} # Monta o volume persistente no diretório de dados do PostgreSQL.
+
     ports:
-      - "${POSTGRES_PORT}:5432"
-  networks:
-      - backend
+      - "${POSTGRES_PORT}:5432" # Publica a porta do banco no host; 5432 é a porta interna do PostgreSQL.
+
+    networks:
+      - backend # Conecta o PostgreSQL exclusivamente à rede backend.
 
 volumes:
-  postgres_data:
+  postgres_data: # Nome lógico do volume utilizado pelo serviço.
+    name: ${VOLUME_NAME_POSTGRES} # Nome real do volume no Docker, definido no .env.
 
 networks:
-  backend:
-    driver: bridge
-  
-  frontend:
-    driver: bridge
+  backend: # Rede destinada à comunicação entre o banco, a API e outros serviços internos.
+    driver: bridge # Cria uma rede virtual Docker do tipo bridge.
+    name: ${NETWORK_NAME_BACKEND} # Nome real da rede backend no Docker.
+
+  frontend: # Rede destinada aos serviços que precisam se comunicar com a API ou o proxy.
+    driver: bridge # Cria uma rede virtual Docker do tipo bridge.
+    name: ${NETWORK_NAME_FRONTEND} # Nome real da rede frontend no Docker.

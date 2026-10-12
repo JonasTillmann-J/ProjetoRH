@@ -1,27 +1,32 @@
-Documentação geral do projeto
+# Nome do projeto Docker Compose
+PROJECT_NAME=Projeto_Sistema_RH
 
-Banco de dados
+# Nome do contêiner PostgreSQL
+CONTAINER_NAME_POSTGRES=postgres_database_container
 
-usamos um postgress as variaveis estão sendo definidas em um arquivo .env que não serão passados para o repositorio mas pode ser configurado posteriormente
+# Nome da rede backend
+NETWORK_NAME_BACKEND=backend_network
 
-```
-# Informações do banco de dados
+# Nome da rede frontend
+NETWORK_NAME_FRONTEND=frontend_network
 
-# Nome do Banco de dados
-POSTGRES_DB=nome do seu banco
+# Nome do volume persistente do PostgreSQL
+VOLUME_NAME_POSTGRES=postgres_data_volume
+
+# Nome do banco de dados
+POSTGRES_DB=BD_RH_PROD
 
 # Usuário do banco de dados
-POSTGRES_USER=usuario do seu banco
+POSTGRES_USER=USER_RH_PROD
 
 # Senha do banco de dados
-POSTGRES_PASSWORD=senha doi seu banco
+POSTGRES_PASSWORD=SUBSTITUA_POR_UMA_SENHA_FORTE
 
-# Porta para exposição do banco de dados
-POSTGRES_PORT=porta exposta do seu banco
+# Porta do PostgreSQL no host
+POSTGRES_PORT=5432
 
-# Versão do banco de dados
-POSTGRES_VERSION=varsão do seu banco de dados
+# Versão do PostgreSQL
+POSTGRES_VERSION=17
 
-# Caminho para armazenamento dos dados do banco de dados
-POSTGRES_DATA="/var/lib/postgresql/data" valor padrão
-```
+# Diretório dos dados dentro do contêiner
+POSTGRES_DATA=/var/lib/postgresql/data
